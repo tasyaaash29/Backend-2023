@@ -6,48 +6,35 @@ use Illuminate\Http\Request;
 
 class AnimalController extends Controller
 {
-    // property animal
-    public $animals = ["Gajah","Bebek"];
-
-    // method untuk menampilkan semua hewan
-    public function index(){
-        echo "Menampilkan semua hewan <br>";
-
-        // loop properti animals
-        foreach($this->animals as $animal){
-            echo "- $animal <br>";
+    public $animals = [
+        ["name" => "panda"],
+        ["name" => "kucing"],
+        ["name" => "burung"],
+    ];
+    # method index - menampilkan data animals
+    public function index()
+    {
+        foreach ($this->animals as $animal) {
+            echo "Nama Hewan : $animal[name] <br>";
         }
     }
-    // method untuk menambahkan hewan
-    public function store(Request $request){
-        echo "Menambahkan hewan baru <br>";
-
-        // menambahkan data ke properti animals
-        array_push($this->animals, $request->animal);
-
-        // panggil method index
+    #method store - menambahkan hewan baru
+    public function store(Request $request)
+    {
+        array_push($this->animals, $request);
         $this->index();
     }
-
-    // method untuk mengedit hewan
-    public function update(Request $request, $id){
-        echo "Mengedit hewan $id <br>";
-
-        // edit data animals
-        $this->animals[$id] = $request->animal;
-
-        // panggil method index
-        $this->index();
+    #method update - mengupdate hewan
+    public function update(Request $request, $id)
+    {
+        $this->animals[$id] = $request;
+        $this-> index();
     }
-
-    // method untuk menghapus data hewan
-    public function destroy($id){
-        echo "Menghapus hewan $id <br>";
-
-        // hapus data animals
+    #method destroy menghapus data hewan
+    public function destroy($id)
+    {
+        #menggunakan method unset atau array_splice untuk menghapus data array
         unset($this->animals[$id]);
-
-        // panggil method index
         $this->index();
     }
 }
