@@ -1,25 +1,29 @@
 // import mysql
-const mysql = require("mysql")
+const mysql = require('mysql');
 
 // import dotenv
-require("dotenv").config();
+require('dotenv').config();
 
+// destructing object process.env
+const { DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE } = process.env;
+
+// membuat koneksi database
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
+    host: DB_HOST,
+    user: DB_USERNAME,
+    password: DB_PASSWORD,
+    database: DB_DATABASE,
 });
 
-db.connect(function (err) {
-    if (err) {
-        console.log(`koneksi error: ${err}`);
+// menghubungkan ke database
+db.connect((err) => {
+    if(err){
+        console.log("Error connecting database ..." + err.stack);
         return;
-    } else {
-        console.log("koneksi berhasil");
+    }else{
+        console.log("Database connected ...");
         return;
     }
 });
 
-// export db
 module.exports = db;
